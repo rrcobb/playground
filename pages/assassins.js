@@ -1,35 +1,15 @@
 import React from "react";
-import nouns from "../nouns.json";
 import Layout from "../comps/Layout";
+import matchTargets from "../assassinMatcher";
+import fetch from "isomorphic-unfetch";
 
-const shuffle = array => {
-  let m = array.length;
-  let i, t;
-  while (m) {
-    i = Math.floor(Math.random() * m--);
-
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
-  }
-
-  return array;
-};
-
-const matchPeopleToWords = (people, words) => {
-  const list = shuffle(people);
-  const possibleWords = shuffle(words);
-  const killWords = possibleWords.slice(0, list.length);
-  let assignments = [];
-  list.forEach((person, idx) => {
-    let target = list[idx + 1] || list[0]; // last gets first
-    let killWord = killWords[idx];
-    assignments.push({ assassin: person, target, killWord });
-  });
-  return assignments;
-};
-
-const PersonInput = ({ name, email, updateName, updateEmail }) => (
+const PersonInput = ({
+  name,
+  email,
+  updateName,
+  updateEmail,
+  removePerson,
+}) => (
   <div>
     <input placeholder="name" name="name" onChange={updateName} value={name} />
     <input
@@ -38,6 +18,7 @@ const PersonInput = ({ name, email, updateName, updateEmail }) => (
       onChange={updateEmail}
       value={email}
     />
+    <button onClick={removePerson}>x</button>
   </div>
 );
 
@@ -61,11 +42,11 @@ export default class Page extends React.Component {
     this.state = {
       people: [],
       generated: null,
+      response: null,
     };
   }
 
   updatePerson = (index, updated) => {
-    console.log("update person", index);
     let people = [
       ...this.state.people.slice(0, index),
       updated,
@@ -82,6 +63,15 @@ export default class Page extends React.Component {
     this.updatePerson(index, { ...this.state.people[index], email });
   };
 
+  removePerson = index => {
+    this.setState({
+      people: [
+        ...this.state.people.slice(0, index),
+        ...this.state.people.slice(index + 1, this.state.people.length),
+      ],
+    });
+  };
+
   render() {
     return (
       <Layout>
@@ -92,6 +82,7 @@ export default class Page extends React.Component {
             email={person.email}
             updateName={e => this.updateName(index, e.target.value)}
             updateEmail={e => this.updateEmail(index, e.target.value)}
+            removePerson={e => this.removePerson(index)}
           />
         ))}
         <button
@@ -104,14 +95,26 @@ export default class Page extends React.Component {
         </button>
         <button
           onClick={() => {
-            let generated = matchPeopleToWords(this.state.people, nouns.data);
-            console.log("targets", generated);
+            let generated = matchTargets(this.state.people);
             this.setState({ generated });
           }}
         >
-          Generate Targets!
+          Generate A Test Set!
+        </button>
+        <button
+          onClick={() => {
+            fetch("/assassins", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ people: this.state.people }),
+            }).then(response => this.setState({ response }));
+          }}
+        >
+          Send secret emails to assassins with their targets!
         </button>
         {this.state.generated && <Targets targets={this.state.generated} />}
+        {this.state.response &&
+          <div>{JSON.stringify(this.state.response)}</div>}
       </Layout>
     );
   }
