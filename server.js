@@ -44,12 +44,11 @@ app
         )
       ) {
         let targets = matchTargets(people);
-        console.log(targets);
         targets.forEach(target => {
           to = target.assassin.email;
           subject = "[TOP SECRET] Word Assassin Target";
-          text = `Your target is ${target.target.name}. To knock them out, get them to say ${target.killWord}`;
-          console.log({
+          text = `Your target is ${target.target.name}. To knock them out, get them to say "${target.killWord}"`;
+          gmailSend({
             to,
             subject,
             text,

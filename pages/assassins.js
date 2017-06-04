@@ -107,7 +107,12 @@ export default class Page extends React.Component {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ people: this.state.people }),
-            }).then(response => this.setState({ response }));
+            })
+              .then(response => response.json())
+              .then(response => {
+                console.log(response);
+                this.setState({ response });
+              });
           }}
         >
           Send secret emails to assassins with their targets!
