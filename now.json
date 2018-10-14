@@ -1,0 +1,10 @@
+{
+  "name": "playground",
+  "env": {
+    "GMAIL_USER": "@word_assassins_gmail",
+    "GMAIL_PASSWORD": "@word_assassins_pwd"
+  },
+  "alias": [
+    "playground.rob.co.bb"
+  ]
+}
