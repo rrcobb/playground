@@ -1,5 +1,5 @@
-import React from "react";
-import Layout from "../comps/Layout";
+import React from 'react';
+import Layout from '../comps/Layout';
 
 const Index = props => {
   return (

@@ -1,7 +1,7 @@
-import React from "react";
-import Layout from "../comps/Layout";
-import Link from "next/link";
-import fetch from "isomorphic-unfetch";
+import React from 'react';
+import Layout from '../comps/Layout';
+import Link from 'next/link';
+import fetch from 'isomorphic-unfetch';
 
 const CourseLink = props => (
   <li>
@@ -19,16 +19,15 @@ const Courses = props => {
     <Layout>
       <p>Some UMD Courses</p>
       <div>
-        {props.courses.map(course => (
-          <CourseLink key={course.course_id} {...course} />
-        ))}
+        {(props.courses || [])
+          .map(course => <CourseLink key={course.course_id} {...course} />)}
       </div>
     </Layout>
   );
 };
 
 Courses.getInitialProps = async function() {
-  const res = await fetch("http://api.umd.io/v0/courses");
+  const res = await fetch('https://api.umd.io/v0/courses');
   const courses = await res.json();
 
   return {
