@@ -15,10 +15,10 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "gmail-send": "^1.2.10",
-    "isomorphic-unfetch": "^1.0.0",
-    "next": "^2.4.5",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^7.0.2",
     "raw-loader": "^0.5.1",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
   }
 }
