@@ -1,5 +1,6 @@
 {
   "name": "playground",
+  "version": 1,
   "env": {
     "GMAIL_USER": "@word_assassins_gmail",
     "GMAIL_PASSWORD": "@word_assassins_pwd"
