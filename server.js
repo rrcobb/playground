@@ -2,7 +2,7 @@ const express = require('express');
 const next = require('next');
 const bodyParser = require('body-parser');
 const configureGmail = require('gmail-send');
-const matchTargets = require('./assassinMatcher');
+const matchTargets = require('./assassins/assassinMatcher');
 
 const dev = process.env.NODE_ENV === 'development';
 const app = next({dev});
@@ -16,7 +16,7 @@ const gmailSend = configureGmail({
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const rules =
-  'The rules are simple. Get your target to say the target word, in your hearing. After you do, secretly let them know that they are out (for instance, forward them this email). If you are killed, give your killer your target and word. \n\nTwo prizes will be awarded: one for the last person alive, and one for the person who eliminates the most foes. Good luck!';
+  'The rules are simple. Get your target to say the target word, in your hearing. After you do, secretly let them know that they are out (for instance, forward them this email). If you are killed, give your killer your target and word. See more at https://playground.rob.co.bb/assassins \n\n Good luck!';
 
 app
   .prepare()

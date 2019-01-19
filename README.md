@@ -1,4 +1,4 @@
-# playground
+# Playground
 
 A space for little js experiments
 
